@@ -67,9 +67,10 @@ func (u UserRepository) Login(username string, password string) (*string, error)
 	}
 	// 3. if user not exists => return nil, errors.New("unknown user")
 	if existingUser == nil {
-		return nil, errors.New("unknown user")
+		return nil, errors.New("Login Failed")
 	}
-	// 4. if user exists, changeStatus(username, true)
+	// 4. if user exists, logout all, changeStatus(username, true)
+	u.LogoutAll()
 	err = u.changeStatus(username, true)
 	return &username, err
 }

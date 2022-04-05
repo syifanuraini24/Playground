@@ -86,7 +86,7 @@ func (u *CartItemRepository) Add(product Product) error {
 }
 
 func (u *CartItemRepository) ResetCartItems() error {
-	return u.db.Delete("cart_items")
+	return u.Save([]CartItem{})
 }
 
 func (u *CartItemRepository) TotalPrice() (int, error) {
