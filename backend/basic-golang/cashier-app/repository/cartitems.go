@@ -65,7 +65,7 @@ func (u *CartItemRepository) Save(cartItems []CartItem) error {
 }
 
 func (u *CartItemRepository) SelectAll() ([]CartItem, error) {
-	return []CartItem{}, nil // TODO: replace this
+	return u.LoadOrCreate()
 }
 
 func (u *CartItemRepository) Add(product Product) error {
@@ -74,13 +74,29 @@ func (u *CartItemRepository) Add(product Product) error {
 		return err
 	}
 
-	return nil // TODO: replace this
+	item := CartItem{
+		Category:    product.Category,
+		ProductName: product.ProductName,
+		Price:       product.Price,
+		Quantity:    1,
+	}
+
+	cartItems = append(cartItems, item)
+	return u.Save(cartItems)
 }
 
 func (u *CartItemRepository) ResetCartItems() error {
-	return nil // TODO: replace this
+	return u.db.Delete("cart_items")
 }
 
 func (u *CartItemRepository) TotalPrice() (int, error) {
-	return 0, nil // TODO: replace this
+	cartItems, err := u.LoadOrCreate()
+	if err != nil {
+		return 0, err
+	}
+	total := 0
+	for _, item := range cartItems {
+		total += item.Price * item.Quantity
+	}
+	return total, nil
 }
