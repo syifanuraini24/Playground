@@ -9,5 +9,10 @@ func NewTransactionRepository(cartItemRepository CartItemRepository) Transaction
 }
 
 func (u *TransactionRepository) Pay(amount int) (int, error) {
-	return 0, nil // TODO: replace this
+	totalPrice, err := u.cartItemRepository.TotalPrice()
+	if err != nil {
+		return 0, err
+	}
+
+	return amount - totalPrice, nil
 }

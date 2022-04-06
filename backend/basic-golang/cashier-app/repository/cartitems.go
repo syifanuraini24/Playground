@@ -75,10 +75,12 @@ func (u *CartItemRepository) Add(product Product) error {
 	}
 
 	// check if cartItems contain the same category or productName
-	for _, ci := range cartItems {
+	newCartItems := cartItems
+	for i, ci := range cartItems {
 		if ci.Category == product.Category && ci.ProductName == product.ProductName {
 			ci.Quantity++
-			return u.Save(cartItems)
+			newCartItems[i] = ci
+			return u.Save(newCartItems)
 		}
 	}
 

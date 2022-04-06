@@ -29,6 +29,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Println(res)
 
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: username})
 }
 
@@ -45,5 +46,6 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	encoder.Encode(AuthErrorResponse{Error: err.Error()})
+	w.WriteHeader(http.StatusOK)
+	encoder.Encode(AuthErrorResponse{Error: ""})
 }
