@@ -88,11 +88,15 @@ func (u *UserRepository) FindLoggedinUser() (*string, error) {
 			return &user.Username, nil
 		}
 	}
-	return nil, errors.New("logged in user not found")
+	return nil, errors.New("no user is logged in")
 }
 
 func (u *UserRepository) Logout(username string) error {
 	// changeStatus(username, false)
+	user, err := u.FindLoggedinUser()
+	if err != nil || user != &username {
+		return errors.New("unauthorized")
+	}
 	return u.changeStatus(username, false)
 }
 
