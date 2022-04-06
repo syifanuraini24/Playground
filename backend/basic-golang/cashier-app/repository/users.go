@@ -71,8 +71,8 @@ func (u UserRepository) Login(username string, password string) (*string, error)
 	}
 	// 4. if user exists, logout all, changeStatus(username, true)
 	u.LogoutAll()
-	err = u.changeStatus(username, true)
-	return &username, err
+	u.changeStatus(username, true)
+	return &username, nil
 }
 
 func (u *UserRepository) FindLoggedinUser() (*string, error) {
@@ -92,11 +92,21 @@ func (u *UserRepository) FindLoggedinUser() (*string, error) {
 }
 
 func (u *UserRepository) Logout(username string) error {
-	// changeStatus(username, false)
-	user, err := u.FindLoggedinUser()
-	if err != nil || user != &username {
-		return errors.New("unauthorized")
+	users, err := u.SelectAll()
+	if err != nil {
+		return err
 	}
+
+	for _, u := range users {
+		if u.Username == username {
+			if !u.Loggedin {
+				return errors.New("unauthorized")
+			}
+			break
+		}
+	}
+
+	// changeStatus(username, false)
 	return u.changeStatus(username, false)
 }
 
@@ -120,15 +130,17 @@ func (u *UserRepository) changeStatus(username string, status bool) error {
 		return err
 	}
 	// search user with specified username
-	for _, user := range users {
+	newUsers := users
+	for i, user := range users {
 		if user.Username == username {
 			user.Loggedin = status
+			newUsers[i] = user
 			break
 		}
 	}
 
 	// return Save()
-	return u.Save(users)
+	return u.Save(newUsers)
 }
 
 func (u *UserRepository) LogoutAll() error {
@@ -137,9 +149,11 @@ func (u *UserRepository) LogoutAll() error {
 		return err
 	}
 
-	for _, user := range users {
+	newUsers := make([]User, len(users))
+	for i, user := range users {
 		user.Loggedin = false
+		newUsers[i] = user
 	}
 
-	return u.Save(users)
+	return u.Save(newUsers)
 }
