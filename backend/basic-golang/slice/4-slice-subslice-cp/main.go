@@ -14,4 +14,17 @@ func main() {
 		"Aurelius", "is", "also", "known", "to", "be", "a", "philosopher"}
 
 	// TODO: answer here
+	length := len(slice)
+
+	slice1 := slice[0:5]                // 0=Marcus 1=is 2=known 3=to 4=be
+	slice2 := slice[length-2 : length]  // 18=a 19=philosopher
+	slice3 := append(slice1, slice2...) // 0=Marcus 1=is 2=known 3=to 4=be 5=a 6=philosopher
+
+	fmt.Println("len =", length)
+	fmt.Println(slice3)
+	apa_ya()
+}
+
+func apa_ya() {
+	fmt.Print("apa?")
 }

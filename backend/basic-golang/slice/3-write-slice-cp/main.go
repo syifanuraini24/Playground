@@ -7,10 +7,16 @@ import "fmt"
 // dan "Olleh" menjadi "Aurelius"
 func main() {
 	slice := []string{"Hello", "World"}
+	slice = append(slice, "Olleh")
 
-	// Dibawah ini adalah jawaban nomor 2: silahkan kalian copy paste dari jawaban nomor 2
-	// TODO: answer here
+	for i, v := range slice {
+		if v == "World" {
+			slice[i] = "Marcus"
+		}
+		if v == "Olleh" {
+			slice[i] = "Aurelius"
+		}
+	}
 
-	// Dibawah ini adalah jawaban nomor 3 silahkan kalian isi
-	// TODO: answer here
+	fmt.Print(slice)
 }
