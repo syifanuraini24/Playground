@@ -57,7 +57,7 @@ func (api *API) clearCart(w http.ResponseWriter, req *http.Request) {
 	encoder := json.NewEncoder(w)
 	defer func() {
 		if err != nil {
-			// TODO: answer here
+			w.WriteHeader(http.StatusBadRequest)
 			encoder.Encode(CartErrorResponse{Error: err.Error()})
 		}
 	}()
@@ -77,5 +77,5 @@ func (api *API) cartList(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Println(cartItems)
 
-	encoder.Encode(CartListSuccessResponse{CartItems: []repository.CartItem{}}) // TODO: replace this
+	encoder.Encode(CartListSuccessResponse{CartItems: cartItems})
 }

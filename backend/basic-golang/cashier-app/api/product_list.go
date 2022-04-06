@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/ruang-guru/playground/backend/basic-golang/cashier-app/repository"
 )
 
 type ProductListErrorResponse struct {
@@ -40,5 +42,17 @@ func (api *API) productList(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Println(products)
 
-	encoder.Encode(ProductListSuccessResponse{Products: []Product{}}) // TODO: replace this
+	encoder.Encode(ProductListSuccessResponse{Products: productToResponse(products)})
+}
+
+func productToResponse(products []repository.Product) []Product {
+	results := make([]Product, len(products))
+	for i, product := range products {
+		results[i] = Product{
+			Name:     product.ProductName,
+			Price:    product.Price,
+			Category: product.Category,
+		}
+	}
+	return results
 }

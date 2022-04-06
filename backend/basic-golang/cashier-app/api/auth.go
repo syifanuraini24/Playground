@@ -29,7 +29,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Println(res)
 
-	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: username}) // TODO: replace this
+	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: username})
 }
 
 func (api *API) logout(w http.ResponseWriter, req *http.Request) {
@@ -45,5 +45,5 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	encoder.Encode(AuthErrorResponse{Error: err.Error()}) // TODO: replace this
+	encoder.Encode(AuthErrorResponse{Error: err.Error()})
 }
