@@ -37,6 +37,11 @@ var _ = Describe("Main", func() {
 				rotateLeft := RotateLeft(4, nums)
 				Expect(rotateLeft).To(Equal([]int{5, 1, 2, 3, 4}))
 			})
+			It("should return the rotated array with max rotations", func() {
+				var nums = []int{1, 2, 3, 4, 5}
+				rotateLeft := RotateLeft(2147483645, nums)
+				Expect(rotateLeft).To(Equal([]int{1, 2, 3, 4, 5}))
+			})
 		})
 	})
 })
