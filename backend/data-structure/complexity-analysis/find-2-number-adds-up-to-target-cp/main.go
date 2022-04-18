@@ -32,7 +32,13 @@ func TwoTargetSums(nums []int, target int) []int {
 	output := make([]int, 2)
 	for i := 0; i < len(nums); i++ {
 		val, ok := numberMap[target-nums[i]]
-		// TODO: answer here
+		if ok {
+			output[0] = val
+			output[1] = i
+			return output
+		} else {
+			numberMap[nums[i]] = i
+		}
 	}
 	return output
 }

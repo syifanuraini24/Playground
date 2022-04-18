@@ -4,16 +4,21 @@ import (
 	"fmt"
 )
 
-func searchStudentPresent(students []string, siswa string, len int) string {
+func searchStudentPresentIndirect(students []string, siswa string, len int) string {
 	var absensi string
 	if len == -1 {
 		absensi = siswa + " tidak hadir"
 	} else if students[len] == siswa {
 		absensi = siswa + " hadir"
 	} else {
-		return searchStudentPresent(students, siswa, len-1)
+		return searchStudentPresentIndirect(students, siswa, len-1)
 	}
 	return absensi
+}
+
+func searchStudentPresent(students []string, siswa string) string {
+	len := len(students)
+	return searchStudentPresentIndirect(students, siswa, len-1)
 }
 
 func main() {
@@ -24,6 +29,6 @@ func main() {
 	fmt.Print("Masukkan nama siswa yang ingin dicari : ")
 	fmt.Scanln(&student)
 
-	result := searchStudentPresent(studentsPresent, student, len(studentsPresent)-1)
+	result := searchStudentPresent(studentsPresent, student)
 	fmt.Println(result)
 }
