@@ -11,9 +11,10 @@ func main() {
 		[100,100,100,100] -> 100
 		[] -> 0
 	*/
-	arr := []int{90, 90, 100}
-	res := getAverageScore(arr)
-	fmt.Println(res)
+	arr := []int{}
+	res := getAverageScoreCorrect(arr)
+	expected := 0
+	fmt.Println("actual =", res, ", expected =", expected)
 
 	// Try correct answer:
 	// resCorrect := getAverageScoreCorrect(arr)

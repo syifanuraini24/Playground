@@ -11,9 +11,10 @@ func main() {
 		[] -> 0
 		[-1,-3,-5,-1,-2,-3,-4,-10,-15,-5] -> -1
 	*/
-	arr := []int{-1, -3, -5, -1, -2, -3, -4, -10, -15, -5}
-	res := findMax(arr)
-	fmt.Println(res)
+	arr := []int{7, 1, 2, 3, 4, 5, 10}
+	res := findMaxCorrect(arr)
+	expected := 10
+	fmt.Println("actual =", res, ", expected =", expected)
 
 	// Try correct answer:
 	// resCorrect := findMaxCorrect(arr)
