@@ -16,6 +16,11 @@ var _ = Describe("Goroutine", func() {
 				//jalankan goroutine yang melakukan print untuk tiap hasil perkalian i*i dalam loop
 				//dan menambahkan hasil tersebut ke variable result
 				// TODO: answer here
+				go func(j int) {
+					multiply := j * j
+					fmt.Println(multiply)
+					result += multiply
+				}(i)
 
 			}
 			time.Sleep(10 * time.Millisecond)
