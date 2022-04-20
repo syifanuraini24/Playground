@@ -14,6 +14,9 @@ var _ = Describe("Goroutine", func() {
 	It("can be used with anonymous function", func() {
 		called := false
 		// TODO: answer here
+		go func(called *bool) {
+			*called = true
+		}(&called)
 		time.Sleep(10 * time.Millisecond)
 		Expect(called).To(Equal(true))
 	})
