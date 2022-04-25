@@ -3,6 +3,9 @@ package main
 func squareWorker(input <-chan int, output chan<- int) {
 	//lakukan for range loop
 	// TODO: answer here
+	for i := range input {
+		output <- i * i
+	}
 }
 
 func receiver(output chan<- int) {
@@ -11,5 +14,6 @@ func receiver(output chan<- int) {
 	for i := 0; i < 10; i++ {
 		//kirim nilai i ke channel
 		// TODO: answer here
+		input <- i
 	}
 }
