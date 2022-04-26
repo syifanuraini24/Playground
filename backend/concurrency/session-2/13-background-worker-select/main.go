@@ -11,9 +11,9 @@ func main() {
 		for {
 			select {
 			case image := <-imageQueue:
-				fmt.Printf("%s resized\n", image)
+				imageResizer(image)
 			case video := <-videoQueue:
-				fmt.Printf("%s resized\n", video)
+				videoResizer(video)
 			case <-quit:
 				break
 			}
@@ -24,4 +24,12 @@ func main() {
 	imageQueue <- "image.jpg"
 	videoQueue <- "video.mp4"
 	quit <- true
+}
+
+func imageResizer(image string) {
+	fmt.Printf("%s resized\n", image)
+}
+
+func videoResizer(video string) {
+	fmt.Printf("%s resized\n", video)
 }

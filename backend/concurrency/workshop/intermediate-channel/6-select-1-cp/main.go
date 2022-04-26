@@ -27,8 +27,6 @@ func (c *character) awake(movementInput, attackInput chan string) {
 		case movement := <-movementInput:
 			c.activity = movement
 			fmt.Printf("%s bergerak ke %s\n", c.name, c.activity)
-		default:
-			c.activity = c.defaultActivity
 		}
 	}
 }
