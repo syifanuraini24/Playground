@@ -25,11 +25,12 @@ func ActionStudent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if id := r.URL.Query().Get("id"); id != "" {
+	if id := r.URL.Query().Get("id"); id != "" { // http://localhost:8081/student?id=001
 		OutputJSON(w, SelectStudent(id))
 		return
 	}
 
+	// http://localhost:8081/student
 	OutputJSON(w, GetStudents())
 }
 
@@ -57,9 +58,9 @@ func GetStudents() []*Student {
 }
 
 func SelectStudent(id string) *Student {
-	for _, each := range students {
-		if each.Id == id {
-			return each
+	for _, student := range students {
+		if student.Id == id {
+			return student
 		}
 	}
 

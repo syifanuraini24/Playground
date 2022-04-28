@@ -49,7 +49,7 @@ var JWT_SIGNATURE_KEY = []byte("the secret of camp2022")
 
 func main() {
 	mux := new(CustomMux)
-	mux.RegisterMiddleware(MiddlewareJWTAuthorization)
+	mux.RegisterMiddleware(MiddlewareJWTAuthorization) // /dashboard -> MiddlewareJWTAuthorization -> HandlerDashboard
 
 	mux.HandleFunc("/dashboard", HandlerDashboard)
 	mux.HandleFunc("/login", HandlerLogin)
@@ -148,13 +148,13 @@ func MiddlewareJWTAuthorization(next http.Handler) http.Handler {
 			return
 		}
 
-		authorizationHeader := r.Header.Get("Authorization")
+		authorizationHeader := r.Header.Get("Authorization") // -H "Authorization: Bearer ...."
 		if !strings.Contains(authorizationHeader, "Bearer") {
 			http.Error(w, "Invalid token", http.StatusBadRequest)
 			return
 		}
 
-		tokenString := strings.Replace(authorizationHeader, "Bearer ", "", -1)
+		tokenString := strings.Replace(authorizationHeader, "Bearer ", "", -1) // ....
 
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

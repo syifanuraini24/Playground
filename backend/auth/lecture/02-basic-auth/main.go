@@ -14,23 +14,25 @@ func main() {
 func Routes() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
-		user, password, ok := r.BasicAuth()
-
-		if !ok {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
-		if user != "admin" && password != "123" {
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
-
-		w.Write([]byte("Welcome Admin!"))
-	})
+	mux.HandleFunc("/signin", signIn) // http://localhost:8000/signin
 
 	return mux
+}
+
+func signIn(w http.ResponseWriter, r *http.Request) {
+	user, password, ok := r.BasicAuth()
+
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if user != "admin" || password != "123" {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	w.Write([]byte("Welcome Admin!"))
 }
 
 //Encode auth admin:123 disini -> https://www.base64encode.org/ atau menggunakan code sebelumnya yaitu 01-encode-base64

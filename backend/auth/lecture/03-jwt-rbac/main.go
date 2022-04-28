@@ -22,59 +22,7 @@ func main() {
 func Routes() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
-		var creds Credentials
-		// JSON body diconvert menjadi creditial struct
-		err := json.NewDecoder(r.Body).Decode(&creds)
-		if err != nil {
-			// return bad request ketika terjadi kesalahan decoding json
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
-		// Ambil password dari username yang dipakai untuk login
-		expectedPassword, ok := users[creds.Username]
-
-		// return unauthorized jika password salah
-		if !ok || expectedPassword.Password != creds.Password {
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte("user credential invalid"))
-			return
-		}
-
-		// Deklarasi expiry time untuk token jwt
-		expirationTime := time.Now().Add(5 * time.Minute)
-
-		// Buat claim menggunakan variable yang sudah didefinisikan diatas
-		claims := &Claims{
-			Username: creds.Username,
-			Role:     expectedPassword.Role,
-			StandardClaims: jwt.StandardClaims{
-				// expiry time menggunakan time millisecond
-				ExpiresAt: expirationTime.Unix(),
-			},
-		}
-
-		// Buat token menggunakan encoded claim dengan salah satu algoritma yang dipakai
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-		// Buat jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
-		tokenString, err := token.SignedString(jwtKey)
-		if err != nil {
-			// return internal error ketika ada kesalahan ketika pembuatan JWT string
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-
-		// Set token string kedalam cookie response
-		http.SetCookie(w, &http.Cookie{
-			Name:    "token",
-			Value:   tokenString,
-			Expires: expirationTime,
-		})
-
-		w.Write([]byte("Login Success"))
-	})
+	mux.HandleFunc("/signin", signIn)
 
 	mux.HandleFunc("/public", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -97,6 +45,60 @@ func Routes() *http.ServeMux {
 	})))
 
 	return mux
+}
+
+func signIn(w http.ResponseWriter, r *http.Request) {
+	var creds Credentials
+	// JSON body diconvert menjadi creditial struct
+	err := json.NewDecoder(r.Body).Decode(&creds)
+	if err != nil {
+		// return bad request ketika terjadi kesalahan decoding json
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Ambil password dari username yang dipakai untuk login
+	userData, ok := users[creds.Username]
+
+	// return unauthorized jika password salah
+	if !ok || userData.Password != creds.Password {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("user credential invalid"))
+		return
+	}
+
+	// Deklarasi expiry time untuk token jwt
+	expirationTime := time.Now().Add(5 * time.Minute)
+
+	// Buat claim menggunakan variable yang sudah didefinisikan diatas
+	claims := &Claims{
+		Username: creds.Username,
+		Role:     userData.Role,
+		StandardClaims: jwt.StandardClaims{
+			// expiry time menggunakan time millisecond
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	// Buat token menggunakan encoded claim dengan salah satu algoritma yang dipakai
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Buat jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		// return internal error ketika ada kesalahan ketika pembuatan JWT string
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Set token string kedalam cookie response
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   tokenString,
+		Expires: expirationTime,
+	})
+
+	w.Write([]byte("Login Success"))
 }
 
 // Test menggunakan curl:

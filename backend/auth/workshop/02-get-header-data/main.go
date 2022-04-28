@@ -22,8 +22,17 @@ func Routes() *http.ServeMux {
 		// Task:  1. Ambil token dari cookie yang dikirim ketika request
 		// 		  2. return unauthorized ketika token kosong
 		// 		  3. return bad request ketika field token tidak ada
+		token, err := r.Cookie(cookieFieldName)
+		if err != nil {
+			if err == http.ErrNoCookie {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
-		return w.Write([]byte(fmt.Sprintf(""))) // TODO: replace this
+		w.Write([]byte(fmt.Sprintf("Tokenmu adalah %s!", token.Value))) // TODO: replace this
 	})
 
 	return mux

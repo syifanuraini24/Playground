@@ -27,28 +27,30 @@ func isAuthorised(username, password string) bool {
 
 func Routes() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "application/json")
-		username, password, ok := r.BasicAuth()
-		if !ok {
-			w.Header().Add("WWW-Authenticate", `Basic realm="Give username and password"`)
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte(`{"message": "No basic auth present"}`))
-			return
-		}
-
-		if !isAuthorised(username, password) {
-			w.Header().Add("WWW-Authenticate", `Basic realm="Give username and password"`)
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte(`{"message": "Invalid username or password"}`))
-			return
-		}
-
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"message": "welcome to CAMP 2022!"}`))
-	})
+	mux.HandleFunc("/login", login)
 
 	return mux
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	username, password, ok := r.BasicAuth()
+	if !ok {
+		w.Header().Add("WWW-Authenticate", `Basic realm="Give username and password"`)
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte(`{"message": "No basic auth present"}`))
+		return
+	}
+
+	if !isAuthorised(username, password) {
+		w.Header().Add("WWW-Authenticate", `Basic realm="Give username and password"`)
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte(`{"message": "Invalid username or password"}`))
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"message": "welcome to CAMP 2022!"}`))
 }
 
 //Encode auth aditira:aditira123 disini -> https://www.base64encode.org/

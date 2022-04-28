@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -16,10 +18,15 @@ var (
 )
 
 func init() {
+	godotenv.Load()
+
+	env := os.Environ()
+	fmt.Println("env:", env)
+
 	googleOauthConfig = &oauth2.Config{
 		RedirectURL:  "http://localhost:8080/callback",
-		ClientID:     "1059048358880-kdpnegemnrrjba4s21lg6u2jh05cnhqq.apps.googleusercontent.com",
-		ClientSecret: "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",
+		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
+		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
 		Endpoint:     google.Endpoint,
 	}

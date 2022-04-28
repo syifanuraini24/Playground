@@ -4,6 +4,7 @@ import "github.com/dgrijalva/jwt-go"
 
 // Jwt key yang akan dipakai untuk membuat signature
 var jwtKey = []byte("key")
+var jwtCookieKey = "token"
 
 // Data user - password yang bisa mengakses api
 var users = map[string]string{

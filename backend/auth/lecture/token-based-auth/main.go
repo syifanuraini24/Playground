@@ -30,6 +30,5 @@ func registrationsHandler(w http.ResponseWriter, req *http.Request) {
 
 func registerUser(username string, password string) (string, error) {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 14)
-
 	return string(hashedPassword), nil
 }
