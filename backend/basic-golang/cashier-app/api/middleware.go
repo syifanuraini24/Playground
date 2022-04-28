@@ -35,11 +35,12 @@ func (api *API) AuthMiddleWare(next http.Handler) http.Handler {
 		// TODO: answer here
 		tokenCookie, err := r.Cookie(jwtCookieKey)
 		if err != nil {
-			encoder.Encode(AuthErrorResponse{err.Error()})
 			if err == http.ErrNoCookie {
+				encoder.Encode(AuthErrorResponse{err.Error()})
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
+			encoder.Encode(AuthErrorResponse{err.Error()})
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -64,12 +65,13 @@ func (api *API) AuthMiddleWare(next http.Handler) http.Handler {
 			return jwtKey, nil
 		})
 		if err != nil {
-			encoder.Encode(AuthErrorResponse{err.Error()})
 			if err == jwt.ErrSignatureInvalid {
 				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorResponse{err.Error()})
 				return
 			}
 			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(AuthErrorResponse{err.Error()})
 			return
 		}
 		if !token.Valid {
