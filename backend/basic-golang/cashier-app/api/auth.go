@@ -47,7 +47,7 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	//       3. expiry time menggunakan time millisecond
 
 	// TODO: answer here
-	expiresAt := time.Now().Add(24 * time.Hour)
+	expiresAt := time.Now().Add(30 * time.Second)
 	claims := Claims{
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
@@ -70,8 +70,9 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 
 	// TODO: answer here
 	http.SetCookie(w, &http.Cookie{
-		Name:  jwtCookieKey,
-		Value: tokenStr,
+		Name:    jwtCookieKey,
+		Value:   tokenStr,
+		Expires: expiresAt,
 	})
 
 	// Task: Return response berupa username dan token JWT yang sudah login
