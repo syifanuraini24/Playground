@@ -15,11 +15,14 @@ func main() {
 	}
 
 	log.Println("Server running on port 8080")
+
+	// cara 1
 	err := server.ListenAndServe()
 	if err != nil {
 		panic(err)
 	}
 
+	// cara 2
 	// cara lain yang dapat digunakan adalah dengan menggunakan http.ListenAndServe
 	log.Fatal(http.ListenAndServe("localhost:8080", nil))
 }

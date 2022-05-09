@@ -35,8 +35,8 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
-	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/influxdata/tdigest v0.0.0-20180711151920-a7d76c6f093a // indirect
+	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

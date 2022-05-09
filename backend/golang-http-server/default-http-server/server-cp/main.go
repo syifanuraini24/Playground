@@ -10,4 +10,10 @@ import (
 
 func main() {
 	// TODO: answer here
+	server := http.Server{
+		Addr: "localhost:3000",
+	}
+
+	log.Println("Server running on port 3000")
+	log.Fatal(server.ListenAndServe())
 }
