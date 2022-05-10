@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -17,4 +18,10 @@ var handler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, "Hello World")
+}
+
+func main() {
+	mux := http.DefaultServeMux
+	mux.HandleFunc("/hello", handler)
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }

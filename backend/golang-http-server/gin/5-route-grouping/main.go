@@ -12,10 +12,10 @@ func main() {
 	// Simple group: v1
 	v1 := router.Group("/v1")
 	{
-		v1.POST("/login", func(c *gin.Context) {
+		v1.POST("/login", func(c *gin.Context) { // /v1/login
 			c.String(http.StatusOK, "login v1")
 		})
-		v1.POST("/submit", func(c *gin.Context) {
+		v1.POST("/submit", func(c *gin.Context) { // /v1/submit
 			c.String(http.StatusOK, "submit v1")
 		})
 		v1.POST("/read", func(c *gin.Context) {
@@ -33,7 +33,7 @@ func main() {
 			c.String(http.StatusOK, "submit v2")
 		})
 		v2.POST("/read", func(c *gin.Context) {
-			c.String(http.StatusOK, "read v2")
+			c.String(http.StatusOK, "read v2") // /v2/read
 		})
 	}
 
