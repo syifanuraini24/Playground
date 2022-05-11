@@ -27,7 +27,7 @@ type DashboardSuccessResponse struct {
 func (api *API) dashboard(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 	encoder := json.NewEncoder(w)
-	username := req.Context().Value("username").(string)
+	username := req.Context().Value(usernameCtxKey).(string)
 
 	cartItems, err := api.cartItemRepo.SelectAll()
 

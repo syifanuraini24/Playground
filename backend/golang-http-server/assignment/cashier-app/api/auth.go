@@ -24,6 +24,10 @@ type AuthErrorResponse struct {
 
 // Jwt key yang akan dipakai untuk membuat signature
 var jwtKey = []byte("key")
+var jwtCookieKey = "token"
+var claimsCtxKey = "claims"
+var usernameCtxKey = "username"
+var tokenExpMin = 30
 
 // Struct claim digunakan sebagai object yang akan di encode oleh jwt
 // jwt.StandardClaims ditambahkan sebagai embedded type untuk provide standart claim yang biasanya ada pada JWT
@@ -58,30 +62,45 @@ func (api *API) login(w http.ResponseWriter, req *http.Request) {
 	//       2. Buat claim menggunakan variable yang sudah didefinisikan diatas
 	//       3. expiry time menggunakan time millisecond
 
-	// TODO: answer here
+	expTime := time.Now().Add(time.Duration(tokenExpMin * int(time.Minute)))
+	claims := &Claims{
+		Username: user.Username,
+		Role:     *userRole,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expTime.Unix(),
+		},
+	}
 
 	// Task: Buat token menggunakan encoded claim dengan salah satu algoritma yang dipakai
 
-	// TODO: answer here
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Task: 1. Buat jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
 	//       2. return internal error ketika ada kesalahan ketika pembuatan JWT string
 
-	// TODO: answer here
+	tokenStr, err := token.SignedString(jwtKey)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	// Task: Set token string kedalam cookie response
 
-	// TODO: answer here
+	http.SetCookie(w, &http.Cookie{
+		Name:    jwtCookieKey,
+		Value:   tokenStr,
+		Expires: expTime,
+	})
 
 	// Task: Return response berupa username dan token JWT yang sudah login
 
-	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: "", Token: ""}) // TODO: replace this
+	json.NewEncoder(w).Encode(LoginSuccessResponse{Username: user.Username, Token: tokenStr})
 }
 
 func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 	api.AllowOrigin(w, req)
 
-	token, err := req.Cookie("token")
+	token, err := req.Cookie(jwtCookieKey)
 	if err != nil {
 		if err == http.ErrNoCookie {
 			// return unauthorized ketika token kosong
@@ -98,10 +117,10 @@ func (api *API) logout(w http.ResponseWriter, req *http.Request) {
 	}
 
 	c := http.Cookie{
-		Name:   "token",
+		Name:   jwtCookieKey,
 		MaxAge: -1,
 	}
 	http.SetCookie(w, &c)
 
-	encoder.Encode(AuthErrorResponse{Error: ""}) // TODO: replace this
+	w.WriteHeader(http.StatusOK)
 }

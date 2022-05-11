@@ -29,10 +29,21 @@ func (api *API) getDashboard(w http.ResponseWriter, req *http.Request) {
 	var startPeriod time.Time
 	var endPeriod time.Time
 
-	startPeriod, err := time.Parse("2006-01-02", req.URL.Query().Get("start_period"))
-	endPeriod, err = time.Parse("2006-01-02", req.URL.Query().Get("end_period"))
+	startPeriod, _ = time.Parse("2006-01-02", req.URL.Query().Get("start_period"))
+	endPeriod, _ = time.Parse("2006-01-02", req.URL.Query().Get("end_period"))
 
-	// TODO: answer here
+	getSalesRequest := repository.GetSalesRequest{
+		ProductName: productName,
+		StartPeriod: &startPeriod,
+		EndPeriod:   &endPeriod,
+	}
+
+	if req.URL.Query().Get("start_period") == "" {
+		getSalesRequest.StartPeriod = nil
+	}
+	if req.URL.Query().Get("end_period") == "" {
+		getSalesRequest.EndPeriod = nil
+	}
 
 	encoder := json.NewEncoder(w)
 

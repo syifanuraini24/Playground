@@ -8,6 +8,11 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+const (
+	roleAdmin    = "admin"
+	roleEmployee = "employee"
+)
+
 func (api *API) AllowOrigin(w http.ResponseWriter, req *http.Request) {
 	// localhost:9000 origin mendapat ijin akses
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:9000")
@@ -31,33 +36,69 @@ func (api *API) AuthMiddleWare(next http.Handler) http.Handler {
 		// Task: 1. Ambil token dari cookie yang dikirim ketika request
 		//       2. return unauthorized ketika token kosong
 		//       3. return bad request ketika field token tidak ada
-
-		// TODO: answer here
+		tokenCookie, err := r.Cookie(jwtCookieKey)
+		if err != nil {
+			if err == http.ErrNoCookie {
+				// return unauthorized ketika token kosong
+				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorResponse{"token is empty"})
+				return
+			}
+			// return bad request ketika field token tidak ada
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(AuthErrorResponse{"token field not exists"})
+			return
+		}
 
 		// Task: Ambil value dari cookie token
-
-		// TODO: answer here
+		tokenValue := tokenCookie.Value
 
 		// Task: Deklarasi variable claim
-
-		// TODO: answer here
+		claims := &Claims{}
 
 		// Task: 1. parse JWT token ke dalam claim
 		//       2. return unauthorized ketika signature invalid
 		//       3. return bad request ketika field token tidak ada
 		//       4. return unauthorized ketika token sudah tidak valid (biasanya karna token expired)
+		token, err := jwt.ParseWithClaims(tokenValue, claims, func(token *jwt.Token) (interface{}, error) {
+			return jwtKey, nil
+		})
 
-		// TODO: answer here
+		if err != nil {
+			if err == jwt.ErrSignatureInvalid {
+				w.WriteHeader(http.StatusUnauthorized)
+				encoder.Encode(AuthErrorResponse{"invalid signature"})
+				return
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			encoder.Encode(AuthErrorResponse{"token field not exists"})
+			return
+		}
+
+		if !token.Valid {
+			w.WriteHeader(http.StatusUnauthorized)
+			encoder.Encode(AuthErrorResponse{"invalid/expired token"})
+			return
+		}
 
 		// Task: Validasi
-
-		return next.ServeHTTP(w, r) // TODO: replace this
+		ctx := context.WithValue(r.Context(), claimsCtxKey, claims)
+		ctx = context.WithValue(ctx, usernameCtxKey, claims.Username)
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
 func (api *API) AdminMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		return next.ServeHTTP(w, r) // TODO: replace this
+		encoder := json.NewEncoder(w)
+		ctx := r.Context()
+		claims := ctx.Value(claimsCtxKey).(*Claims)
+		if claims.Role != roleAdmin {
+			w.WriteHeader(http.StatusForbidden)
+			encoder.Encode(AuthErrorResponse{"need admin role"})
+			return
+		}
+		next.ServeHTTP(w, r)
 	})
 }
 
