@@ -11,6 +11,13 @@ func NewKontraktor(builder HouseBuilder) *kontraktor {
 	}
 }
 
+func (d *kontraktor) BuildHouseWithoutDoor() House {
+	d.builder.buildWindow(3)
+	d.builder.buildGarage()
+	d.builder.buildSwimmingPool()
+	return d.builder.getHouse()
+}
+
 func (d *kontraktor) BuildHouse() House {
 	d.builder.buildWindow(5)
 	d.builder.buildDoor()

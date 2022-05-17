@@ -14,7 +14,7 @@ var _ = Describe("Coffe", func() {
 			Expect(coffe.GetCost()).To(Equal(3.00))
 		})
 
-		It("should return the cost of Mocha", func() {
+		It("should return the cost of Espresso", func() {
 			coffe := coffe.Espresso{}
 			Expect(coffe.GetCost()).To(Equal(2.00))
 		})
@@ -61,7 +61,7 @@ var _ = Describe("Coffe", func() {
 
 			Expect(ice2.GetDescription()).To(Equal("Coldbrew, Ice, Whipcream, Ice, BEKU"))
 
-			// There is error in this test it should equal 2.50. But the test expected 2.5000000000000004
+			// There is error in this test it should equal 3.50. But the test expected 3.5000000000000004
 			Expect(ice2.GetCost()).Should(BeNumerically(">=", 3.50))
 		})
 	})

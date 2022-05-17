@@ -12,7 +12,7 @@ type SortKM struct {
 }
 
 func (s *SortKM) Sort(array []int) {
-	// TODO: answer here
+	s.Strategy.Sort(array)
 }
 
 func (s *SortKM) SetStrategy(Strategy Strategy) {

@@ -1,6 +1,7 @@
 package coffe
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -18,7 +19,11 @@ func (i Ice) GetCost() float64 {
 }
 
 func (i Ice) GetDescription() string {
-	return description // TODO: replace this
+	desc := fmt.Sprintf("%v, Ice", i.Coffe.GetDescription())
+	if checkRepeatingWord(desc) {
+		desc = fmt.Sprintf("%v, BEKU", desc)
+	}
+	return desc
 }
 
 // check repeating word in a string

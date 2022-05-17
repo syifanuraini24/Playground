@@ -3,11 +3,14 @@ package main
 import (
 	"fmt"
 
-	"github.com/ruang-guru/playground/backend/design-patterns/creational/2-abstract-factory-pattern-optional/abstract-factory/samsung"
+	abstract_factory "github.com/ruang-guru/playground/backend/design-patterns/creational/2-abstract-factory-pattern-optional/abstract-factory"
+	"github.com/ruang-guru/playground/backend/design-patterns/creational/2-abstract-factory-pattern-optional/abstract-factory/apple"
 )
 
 func main() {
-	samsung := samsung.Samsung{}
-	smartphone := samsung.CreateSmartphone()
+	var deviceFactory abstract_factory.DeviceFactory = &apple.Apple{}
+	smartphone := deviceFactory.CreateSmartphone()
+	tablet := deviceFactory.CreateTablet()
 	fmt.Println(smartphone.Price())
+	fmt.Println(tablet.Price())
 }

@@ -61,16 +61,31 @@ type Mappa struct {
 
 // Mappa memproduce Anime berjudul "Attack on Titan" pada hari "Sunday" dan "Jujutsu Kaisen" pada hari "Monday"
 func (m *Mappa) Produce(time time.Time) Content {
-	return nil // TODO: replace this
+	weekday := time.Weekday()
+	title, _ := animeContent[weekday]
+	return AnimeContent{title}
+}
+
+var animeContent = map[time.Weekday]string{
+	time.Sunday: "Attack on Titan",
+	time.Monday: "Jujutsu Kaisen",
 }
 
 // ConcreteCreatorB
 type NetflixKorea struct {
 }
 
-// Mappa memproduce Anime berjudul "All of Us Are Dead" pada hari "Sunday" dan
+// Netflix Korea memproduce Korean Drama berjudul "All of Us Are Dead" pada hari "Sunday" dan
 // "Our Beloved Summer" pada hari "Monday"
 // "Start Up" pada hari "Tuesday"
 func (n *NetflixKorea) Produce(time time.Time) Content {
-	return nil // TODO: replace this
+	weekday := time.Weekday()
+	title, _ := koreanDramaContent[weekday]
+	return KoreanDramaContent{title}
+}
+
+var koreanDramaContent = map[time.Weekday]string{
+	time.Sunday:  "All of Us Are Dead",
+	time.Monday:  "Our Beloved Summer",
+	time.Tuesday: "Start Up",
 }

@@ -6,10 +6,14 @@ type Pricey interface {
 	Price() float64
 }
 
+type Foldable interface {
+	IsFoldable() bool
+}
+
 type Smartphone interface {
 	Pricey
 	Is5G() bool
-	IsFoldable() bool
+	Foldable
 }
 
 type Dimension struct {
@@ -19,7 +23,7 @@ type Dimension struct {
 type Tablet interface {
 	Pricey
 	Size() Dimension
-	IsFoldable() bool
+	Foldable
 }
 
 type DeviceFactory interface {
