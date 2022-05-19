@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type PhoneRow struct {
 	ID          int // primary key
@@ -13,8 +15,8 @@ type UserRow struct {
 	Age  int
 }
 type UserPhoneRow struct {
-	UserID  int // primary key
-	PhoneID int // primary key
+	UserID  int // foreign key
+	PhoneID int // foreign key
 }
 
 type PhoneTable []PhoneRow
@@ -94,13 +96,23 @@ func (db *UserPhoneTable) InsertUserPhone(userID int, phoneID int) {
 
 func (db *PhoneTable) GetPhone(phoneID int) PhoneRow {
 	var result PhoneRow
-	// TODO: answer here
+	for _, phone := range *db {
+		if phone.ID == phoneID {
+			result = phone
+			break
+		}
+	}
 	return result
 
 }
 
 func (db *UserTable) GetUser(userID int) UserRow {
 	var result UserRow
-	// TODO: answer here
+	for _, user := range *db {
+		if user.ID == userID {
+			result = user
+			break
+		}
+	}
 	return result
 }

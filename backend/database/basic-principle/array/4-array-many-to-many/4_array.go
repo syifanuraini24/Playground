@@ -13,8 +13,8 @@ type UserRow struct {
 	Age  int
 }
 type UserPhoneRow struct {
-	UserID  int // primary key
-	PhoneID int // primary key
+	UserID  int // foreign key
+	PhoneID int // foreign key
 }
 
 type PhoneTable []PhoneRow
@@ -26,11 +26,11 @@ func main() {
 	db2 := make(PhoneTable, 0)
 	db3 := make(UserPhoneTable, 0)
 
-	db.InsertUser("John", 20)
-	db.InsertUser("Gina", 20)
+	db.InsertUser("John", 20) // 1
+	db.InsertUser("Gina", 20) // 2
 
-	db2.InsertPhone(62, 1234567890)
-	db2.InsertPhone(62, 2345678901)
+	db2.InsertPhone(62, 1234567890) // 1
+	db2.InsertPhone(62, 2345678901) // 2
 
 	db3.InsertUserPhone(1, 1)
 	db3.InsertUserPhone(1, 2)

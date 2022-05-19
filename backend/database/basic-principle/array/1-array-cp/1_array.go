@@ -1,11 +1,11 @@
 package main
 
 type EmployeeRow struct {
-	ID        int
+	ID        int // primary key
 	Name      string
 	Position  string
 	Salary    int
-	ManagerID int
+	ManagerID int // foreign key -> Employee
 }
 type EmployeeDB []EmployeeRow
 
@@ -33,9 +33,23 @@ func (db *EmployeeDB) Insert(name string, position string, salary int, managerID
 }
 
 func (db *EmployeeDB) Update(id int, name string, position string, salary int, managerID int) {
-	// TODO: answer here
+	// search employee by id
+	employee := db.Where(id)
+
+	// assign new value to properties
+	employee.Name = name
+	employee.Position = position
+	employee.Salary = salary
+	employee.ManagerID = managerID
 }
 
 func (db *EmployeeDB) Delete(id int) {
-	// TODO: answer here
+	// search employee by id
+	for i, employee := range *db {
+		if employee.ID == id {
+			// remove existing employee with specified id from table
+			*db = append((*db)[:i], (*db)[i+1:]...)
+			return
+		}
+	}
 }

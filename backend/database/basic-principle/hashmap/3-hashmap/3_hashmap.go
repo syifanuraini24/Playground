@@ -59,13 +59,15 @@ func main() {
 }
 
 func (db *SalesDB) Insert(customer string, date string, note string) {
-	db.ByID[PrimaryKey(len(db.ByID))+1] = SalesRow{
-		ID:       PrimaryKey(len(db.ByID)) + 1,
-		Customer: SecondaryKey(customer),
+	primaryKey := PrimaryKey(len(db.ByID)) + 1
+	secondaryKey := SecondaryKey(customer)
+	db.ByID[primaryKey] = SalesRow{
+		ID:       primaryKey,
+		Customer: secondaryKey,
 		Date:     date,
 		Note:     note,
 	}
-	db.ByName[SecondaryKey(customer)] = append(db.ByName[SecondaryKey(customer)], PrimaryKey(len(db.ByID)))
+	db.ByName[secondaryKey] = append(db.ByName[secondaryKey], primaryKey)
 }
 
 func (db *SalesDB) WhereByID(id PrimaryKey) *SalesRow {

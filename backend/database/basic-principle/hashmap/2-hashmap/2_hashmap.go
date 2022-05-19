@@ -36,8 +36,9 @@ func NewWarehouse() *WarehouseDB {
 }
 
 func (db *WarehouseDB) Insert(code string, itemName string, unit string, quantity int, price int) {
-	db.m[PrimaryKey(len(db.m)+1)] = WarehouseStockRow{
-		ID:       PrimaryKey(len(db.m)) + 1,
+	id := PrimaryKey(len(db.m) + 1)
+	db.m[id] = WarehouseStockRow{
+		ID:       id,
 		Code:     code,
 		ItemName: itemName,
 		Unit:     unit,
