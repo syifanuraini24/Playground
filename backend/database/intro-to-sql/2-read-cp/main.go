@@ -24,6 +24,11 @@ func (r *EmployeeRepository) FetchEmployeeByNIK(nik string) (*model.Employee, er
 	// data diambil dengan nik tertentu dari parameter nik
 
 	// TODO: answer here
+	sqlStmt = `
+		select id, nik, first_name, last_name, email 
+		from employees
+		where nik = ?;
+	`
 
 	row := r.db.QueryRow(sqlStmt, nik)
 	employee := &model.Employee{}
@@ -50,6 +55,10 @@ func (r *EmployeeRepository) FetchEmployees() ([]model.Employee, error) {
 	// lihat model.Employee untuk field yang diambil dari database
 
 	// TODO: answer here
+	sqlStmt = `
+		select id, nik, first_name, last_name, email
+		from employees;
+	`
 
 	rows, err := r.db.Query(sqlStmt)
 	if err != nil {

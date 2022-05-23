@@ -18,6 +18,10 @@ func (r *EmployeeRepository) DeleteEmployeeByNIK(nik string) error {
 	// 2. use nik to delete employee
 
 	// TODO: answer here
+	sqlStmt = `
+		delete from employees
+		where nik = ?;
+	`
 
 	_, err := r.db.Exec(sqlStmt, nik)
 	if err != nil {

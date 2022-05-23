@@ -31,7 +31,7 @@ type Order struct {
 
 // Migrate digunakan untuk melakukan migrasi database dengan data yang dibutuhkan
 func Migrate() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "./example.db")
+	db, err := sql.Open("sqlite3", "../example.db")
 	if err != nil {
 		panic(err)
 	}
@@ -188,5 +188,5 @@ func main() {
 	defer rows.Close()
 
 	// Use Rollback() to rollback the changes
-	//Rollback(db)
+	// Rollback(db)
 }
