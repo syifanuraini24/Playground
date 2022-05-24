@@ -22,6 +22,12 @@ func (r *MovieRepository) FetchMovies() ([]model.Movie, error) {
 	// 2. use inner join to fetch all movies and their genres and their directors
 
 	// TODO: answer here
+	sqlStmt = `
+		select m.id, m.title, m.Description, m.year, g.name, d.name
+		from movies m
+		join genres g on g.id = m.genre_id
+		join directors d on d.id = m.director_id;
+	`
 
 	rows, err := r.db.Query(sqlStmt)
 	if err != nil {
@@ -57,6 +63,13 @@ func (r *MovieRepository) FetchMovieByID(id int64) (*model.Movie, error) {
 	// 2. use inner join to fetch all movies and their genres and their directors
 
 	// TODO: answer here
+	sqlStmt = `
+		select m.id, m.title, m.Description, m.year, g.name, d.name
+		from movies m
+		join genres g on g.id = m.genre_id
+		join directors d on d.id = m.director_id
+		where m.id = ?;
+	`
 
 	row := r.db.QueryRow(sqlStmt, id)
 
