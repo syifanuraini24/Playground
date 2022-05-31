@@ -35,14 +35,36 @@ func Migrate() (*sql.DB, error) {
 		panic(err)
 	}
 
-	sqlStmt := `CREATE TABLE rekap ... ;` // TODO: replace this
+	sqlStmt := `CREATE TABLE rekap (
+		no_bon		VARCHAR(5),
+		nama_barang	VARCHAR(100),
+		harga		INTEGER,
+		jumlah		INTEGER,
+		biaya		INTEGER,
+		sub_total	INTEGER,
+		discount	INTEGER,
+		total		INTEGER,
+		bayar		INTEGER,
+		kembalian	INTEGER,
+		kasir		VARCHAR(25),
+		tanggal		TEXT,
+		waktu		TEXT
+	);` // TODO: replace this
 
 	_, err = db.Exec(sqlStmt)
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = db.Exec(`INSERT INTO ... VALUES ... ;`) // TODO: replace this
+	_, err = db.Exec(`INSERT INTO rekap VALUES
+		("00001", "Disket", 4500, 3, 13500, 13500, 0, 13500, 100000, 23000, "Rosi", "04-05-2022", "12:00:00"),
+		("00001", "Refil Tinta", 22500, 1, 22500, 36000, 0, 36000, 100000, 23000, "Rosi", "04-05-2022", "12:00:00"),
+		("00001", "CD Blank", 1500, 4, 6000, 42000, 0, 42000, 100000, 23000, "Rosi", "04-05-2022", "12:00:00"),
+		("00001", "CD Mouse", 17500, 2, 35000, 77000, 0, 77000, 100000, 23000, "Rosi", "04-05-2022", "12:00:00"),
+		("00002", "Disket", 4500, 1, 4500, 4500, 0, 4500, 17500, 0, "Dewi", "04-05-2022", "12:00:00"),
+		("00002", "Mouse", 17400, 1, 17500, 22000, 0, 22000, 117500, 0, "Dewi", "04-05-2022", "12:00:00"),
+		("00002", "Flash Disk", 100000, 1, 100000, 117500, 0, 117500, 117500, 0, "Dewi", "04-05-2022", "12:00:00")
+	;`) // TODO: replace this
 
 	if err != nil {
 		panic(err)
@@ -59,7 +81,7 @@ func countByNoBon(noBon string) (int, error) {
 		panic(err)
 	}
 
-	sqlStmt := `SELECT ... FROM rekap WHERE ... = ?;` // TODO: replace this
+	sqlStmt := `SELECT COUNT(*) FROM rekap WHERE no_bon = ?;` // TODO: replace this
 
 	row := db.QueryRow(sqlStmt, noBon)
 	var countBon int

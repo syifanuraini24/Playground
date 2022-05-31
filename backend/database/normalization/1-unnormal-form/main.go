@@ -29,7 +29,7 @@ type Unormal struct {
 
 // Migrate digunakan untuk melakukan migrasi database dengan data yang dibutuhkan
 func Migrate() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "./normalize.db")
+	db, err := sql.Open("sqlite3", "../normalize.db")
 	if err != nil {
 		panic(err)
 	}

@@ -38,14 +38,31 @@ func Migrate() (*sql.DB, error) {
 		panic(err)
 	}
 
-	sqlStmt := `CREATE TABLE unormal ... ;` // TODO: replace this
+	sqlStmt := `CREATE TABLE unormal (
+		no_bon		VARCHAR(12) PRIMARY KEY,
+		nama_barang	TEXT,
+		harga 		TEXT,
+		jumlah		TEXT,
+		biaya		TEXT,
+		sub_total	INTEGER,
+		discount	INTEGER,
+		total		INTEGER,
+		bayar		INTEGER,
+		kembalian	INTEGER,
+		kasir		VARCHAR(25),
+		tanggal		TEXT,
+		waktu		TEXT
+	);` // TODO: replace this
 
 	_, err = db.Exec(sqlStmt)
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = db.Exec(`INSERT INTO ... VALUES ... ;`) // TODO: replace this
+	_, err = db.Exec(`INSERT INTO unormal VALUES 
+		("00001"	, "Disket,Refil Tinta,CD Blank,Mouse"	, "4500,22500,1500,17500"	, "3,1,4,2"	, "13500,22500,6000,35000"	, 77000		, 0, 77000	, 100000	, 23000	, "Rosi"	, "04-05-2022"	, "12:00:00"),
+		("00002"	, "Disket,Mouse,Flash Disk"				, "4500,17500,100000"		, "1,1,1"	, "4500,17500,100000"		, 122000	, 0, 122000	, 122000	, 0		, "Dewi"	, "04-05-2022"	, "12:00:00")
+	;`) // TODO: replace this
 
 	if err != nil {
 		panic(err)
@@ -63,7 +80,7 @@ func checkDataExists(noBon string) (bool, error) {
 		panic(err)
 	}
 
-	sqlStmt := `SELECT ... FROM ... WHERE ... = ?;` // TODO: replace this
+	sqlStmt := `SELECT no_bon FROM unormal WHERE no_bon = ?;` // TODO: replace this
 
 	row := db.QueryRow(sqlStmt, noBon)
 	var latestId int
