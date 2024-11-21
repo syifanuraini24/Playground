@@ -7,5 +7,8 @@ import "fmt"
 // inisialisasi array nya menggunakan "var" ya.
 // Lalu outputkan array nya.
 func main() {
+	var array [1]string
+	array[0] = "Syifa"
+	fmt.Println(array)
 	// TODO: answer here
 }

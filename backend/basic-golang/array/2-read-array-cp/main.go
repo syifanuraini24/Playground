@@ -6,5 +6,9 @@ import "fmt"
 // Yuk dicoba, masih ingat kan dengan cara inisialisasi array pada contoh kode nomor 1 ?
 // Outputkan hasilnya ya
 func main() {
+	var array1 [5]string
+	array1[0] = "S"
+	array1[1] = "Y"
+	fmt.Println(array1)
 	// TODO: answer here
 }

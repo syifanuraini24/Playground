@@ -5,6 +5,9 @@ import "fmt"
 func main() {
 	//fungsi goodMorning melakukan print "selamat pagi"
 	// TODO: answer here
-	goodMorning()
-	fmt.Printf("jenis variabelnya %T", goodMorning)
+	greet := func() {
+		fmt.Println("selamat pagi")
+	}
+	greet()
+	fmt.Printf("jenis variabelnya %T", greet)
 }
