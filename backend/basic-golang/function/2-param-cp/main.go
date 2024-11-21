@@ -9,5 +9,7 @@ func main() {
 	goodMorning("teman 2")
 
 }
-
-// TODO: answer here
+func goodMorning(name string) {
+	fmt.Println("selemat pagi", name)
+	// TODO: answer here
+}

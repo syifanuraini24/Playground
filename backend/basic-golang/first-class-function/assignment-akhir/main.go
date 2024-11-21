@@ -1,13 +1,17 @@
-//jangan ditunjukkan ke peserta
-//mungkin dikerjakan jika waktu cukup aja
+// jangan ditunjukkan ke peserta
+// mungkin dikerjakan jika waktu cukup aja
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // fungsi ini digunakan untuk menambahkan point
 // fungsi ini merupakan closure
 func points(base int) func(x int) int {
-		// TODO: answer here
+	return func(x int) int {
+		base += x // Menambahkan nilai x ke base
+		return base
 	}
 }
 

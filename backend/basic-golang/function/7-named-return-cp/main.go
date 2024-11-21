@@ -10,5 +10,10 @@ func main() {
 	fmt.Printf("%d dan %d\n", result1, result2)
 	fmt.Println(square(9, 8))
 }
+func square(angka1, angka2 int) (result1, result2 int) {
+	result1 = angka1 + angka2
+	result2 = angka1 * angka2
+	return result1, result2
+}
 
 // TODO: answer here

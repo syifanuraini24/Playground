@@ -11,10 +11,17 @@ import "fmt"
 //siang
 //sore
 func main() {
-	printWord("halo")
-	printWord("halo", "selamat siang")
-	printWord("halo", "andi", "dan", "bagus")
-	printWord("mencoba", "variadic", "param", "pada", "go")
+	printWord("selamat")
+	printWord("pagi")
+	printWord("siang")
+	printWord("sore")
+}
+func printWord(words ...string) {
+	result := ""
+	for _, words := range words {
+		result += "" + words
+	}
+	fmt.Println(result)
 }
 
 // TODO: answer here

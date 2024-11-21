@@ -9,9 +9,13 @@ import "fmt"
 //maka akan mengembalikan 16 dan 9
 func main() {
 
-	result1, result2 := square(4, 5)
+	result1, result2 := square(4, 3)
 	fmt.Printf("%d dan %d\n", result1, result2)
-	fmt.Println(square(9, 8))
+}
+func square(angka1, angka2 int) (int, int) {
+	result1 := angka1 * angka1
+	result2 := angka2 + angka2
+	return result1, result2
 }
 
 //gunakan * untuk melakukan perkalian

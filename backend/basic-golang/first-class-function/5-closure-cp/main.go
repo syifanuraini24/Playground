@@ -8,6 +8,10 @@ func main() {
 	//mengembalikan nilai parameter x
 
 	counter := func(x int) func() int {
+		return func() int {
+			x *= x
+			return x
+		}
 		// TODO: answer here
 	}
 	decrement := counter(5)

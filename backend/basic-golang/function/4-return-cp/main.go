@@ -9,5 +9,9 @@ func main() {
 	fmt.Println(result)
 	fmt.Println(multiply(5, 5))
 }
+func multiply(number1, number2 int) int {
+	result := number1 * number2
+	return result
+}
 
 // TODO: answer here

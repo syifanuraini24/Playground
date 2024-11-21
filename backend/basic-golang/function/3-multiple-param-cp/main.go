@@ -9,5 +9,8 @@ func main() {
 	goodAfternoon("ado", "suci")
 
 }
+func goodAfternoon(name, name1 string) {
+	fmt.Printf("Selamat sore %s dan %s\n", name, name1)
+}
 
 // TODO: answer here
